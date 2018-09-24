@@ -5,10 +5,10 @@ module Mailgun
   # Mailgun::Address is a simple interface to the Email Validation API.
   class Address
 
-    # @param [String] api_key Mailgun API - public key
+    # @param [String] api_key Mailgun API - private key
     def initialize(api_key = "")
       if api_key == "" then
-        fail ParameterError.new('Public API key is required for Mailgun::Address.initialize()', nil)
+        fail ParameterError.new('Private API key is required for Mailgun::Address.initialize()', nil)
       end
 
       @api_key = api_key
@@ -22,7 +22,7 @@ module Mailgun
       params = {:address => address}
       params[:mailbox_verification] = true if mailbox_verification
 
-      res = @client.get "address/validate", params
+      res = @client.get "address/private/validate", params
       return res.to_h!
     end
 
@@ -39,7 +39,7 @@ module Mailgun
     def parse(addresses, syntax_only = true)
       validate_addrs = addresses.join(";")
 
-      res = @client.get "address/parse", {:addresses => validate_addrs,
+      res = @client.get "address/private/parse", {:addresses => validate_addrs,
                                           :syntax_only => syntax_only.to_s}
       return res.to_h!
     end
