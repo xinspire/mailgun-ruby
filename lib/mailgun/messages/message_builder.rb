@@ -70,7 +70,7 @@ module Mailgun
     # @return [void]
     def reply_to(address, variables = nil)
       compiled_address = parse_address(address, variables)
-      header("reply-to", compiled_address)
+      header("Reply-To", compiled_address)
     end
 
     # Set a subject for the message object
